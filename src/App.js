@@ -276,11 +276,7 @@ const SearchTable = () => {
 const App = () => {
   console.log('App render');
 
-  return (
-    <>
-      <SearchTable />
-    </>
-  );
+  return <SearchTable />;
 };
 
 export default App;
