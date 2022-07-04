@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, memo, useCallback } from 'react';
 import './style.css';
 
 /**
@@ -222,7 +222,7 @@ const Input = ({ type = 'text', ...rest }) => <input type={type} {...rest} />;
 /**
  * Table
  */
-const Table = ({ lists }) => {
+const Table = memo(({ lists }) => {
   console.log('Table render');
 
   return (
@@ -243,14 +243,14 @@ const Table = ({ lists }) => {
       </tbody>
     </table>
   );
-};
+});
 /**
  * SearchTable
  * control component
  * search table
  */
 const SearchTable = () => {
-  const { value, onChange, onClear, lists = [], searchUser } = useSearch();
+  const { value, onChange, onClear, lists, searchUser } = useSearch();
   console.log('SearchTable render');
 
   return (
