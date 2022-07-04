@@ -183,7 +183,7 @@ const mockUsers = {
   message: 'Successfully! All records has been fetched.',
 };
 
-/** 
+/**
  * hooks
  * keep business logic and event handler
  */
@@ -233,7 +233,7 @@ const Table = memo(({ lists = [] }) => {
       <thead>
         <tr>
           <th>id</th>
-          <th>EmployeeName</th>
+          <th>Employee Name</th>
         </tr>
       </thead>
       <tbody>
