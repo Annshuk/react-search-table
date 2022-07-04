@@ -188,31 +188,32 @@ const mockUsers = {
  */
 const useSearch = () => {
   const [value, setValue] = useState('');
-  const employeeListRef = useRef(mockUsers.data);
+  const [employees, setEmployees] = useState(mockUsers.data);
 
-  const handleInputChange = ({ target }) => {
-    setValue(() => {
-      const employee = target.value;
+  const handleInputChange = ({ target: { value } }) => {
+    setValue(value);
+  };
 
-      employeeListRef.current = mockUsers.data.filter(
+  const searchUser = () => {
+    setEmployees((employees) =>
+      employees.filter(
         ({ id, employee_name }) =>
-          employee_name.toLowerCase().includes(employee) || id === +employee
-      );
-
-      return employee;
-    });
+          employee_name.toLowerCase().includes(value) || id === +value
+      )
+    );
   };
 
   const clearedValue = () => {
     setValue('');
-    employeeListRef.current = mockUsers.data;
+    setEmployees(mockUsers.data);
   };
 
   return {
     value,
-    lists: employeeListRef.current,
+    lists: employees,
     onChange: handleInputChange,
     onClear: clearedValue,
+    searchUser,
   };
 };
 
@@ -249,7 +250,7 @@ const Table = ({ lists }) => {
  * search table
  */
 const SearchTable = () => {
-  const { value, onChange, onClear, lists = [] } = useSearch();
+  const { value, onChange, onClear, lists = [], searchUser } = useSearch();
   console.log('SearchTable render');
 
   return (
@@ -257,6 +258,7 @@ const SearchTable = () => {
       <label>
         search: <Input onChange={onChange} value={value} />
         <button onClick={onClear}>X</button>
+        <button onClick={searchUser}>Search</button>
       </label>
 
       <Table lists={lists} />
