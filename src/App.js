@@ -1,4 +1,4 @@
-import React, { useState, memo, useCallback } from 'react';
+import React, { useState, memo } from 'react';
 import './style.css';
 
 /**
@@ -195,6 +195,8 @@ const useSearch = () => {
   };
 
   const searchUser = () => {
+    if (!value) return;
+
     setEmployees((employees) =>
       employees.filter(
         ({ id, employee_name }) =>
@@ -222,7 +224,7 @@ const Input = ({ type = 'text', ...rest }) => <input type={type} {...rest} />;
 /**
  * Table
  */
-const Table = memo(({ lists }) => {
+const Table = memo(({ lists = [] }) => {
   console.log('Table render');
 
   return (
@@ -244,6 +246,7 @@ const Table = memo(({ lists }) => {
     </table>
   );
 });
+
 /**
  * SearchTable
  * control component
