@@ -183,43 +183,6 @@ const mockUsers = {
   message: 'Successfully! All records has been fetched.',
 };
 
-/**
- * hooks
- * keep business logic and event handler
- */
-const useSearch = () => {
-  const [value, setValue] = useState('');
-  const [employees, setEmployees] = useState(mockUsers.data);
-
-  const handleInputChange = ({ target: { value } }) => {
-    setValue(value);
-  };
-
-  const searchUser = () => {
-    if (!value) return;
-
-    setEmployees((employees) =>
-      employees.filter(
-        ({ id, employee_name }) =>
-          employee_name.toLowerCase().includes(value) || id === +value
-      )
-    );
-  };
-
-  const clearedValue = () => {
-    setValue('');
-    setEmployees(mockUsers.data);
-  };
-
-  return {
-    value,
-    lists: employees,
-    onChange: handleInputChange,
-    onClear: clearedValue,
-    searchUser,
-  };
-};
-
 const Input = ({ type = 'text', ...rest }) => <input type={type} {...rest} />;
 
 /**
@@ -254,18 +217,38 @@ const Table = memo(({ lists = [] }) => {
  * search table
  */
 const SearchTable = () => {
-  const { value, onChange, onClear, lists, searchUser } = useSearch();
-  console.log('SearchTable render');
+ // const [value, setValue] = useState('');
+  const [employees, setEmployees] = useState(mockUsers.data);
+
+  // const handleInputChange = ({ target: { value } }) => {
+  //   setValue(value);
+  // };
+
+  const searchUser = ({ target: { value } }) => {
+    if (!value) return;
+
+    setEmployees((employees) =>
+      employees.filter(
+        ({ id, employee_name }) =>
+          employee_name.toLowerCase().includes(value) || id === +value
+      )
+    );
+  };
+
+  const clearedValue = () => {
+   // setValue('');
+    setEmployees(mockUsers.data);
+  };
 
   return (
     <>
       <label>
-        search: <Input onChange={onChange} value={value} />
-        <button onClick={onClear}>X</button>
+        search: <Input onChange={searchUser} />
+        <button onClick={clearedValue}>X</button>
         <button onClick={searchUser}>Search</button>
       </label>
 
-      <Table lists={lists} />
+      <Table lists={employees} />
     </>
   );
 };
