@@ -217,7 +217,7 @@ const Table = memo(({ lists = [] }) => {
  * search table
  */
 const SearchTable = () => {
- // const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
   const [employees, setEmployees] = useState(mockUsers.data);
 
   // const handleInputChange = ({ target: { value } }) => {
@@ -225,18 +225,17 @@ const SearchTable = () => {
   // };
 
   const searchUser = ({ target: { value } }) => {
-    if (!value) return;
-
     setEmployees((employees) =>
-      employees.filter(
-        ({ id, employee_name }) =>
-          employee_name.toLowerCase().includes(value) || id === +value
-      )
+      value
+        ? employees.filter(
+            ({ id, employee_name }) =>
+              employee_name.toLowerCase().includes(value) || id === +value
+          )
+        : mockUsers.data
     );
   };
 
   const clearedValue = () => {
-   // setValue('');
     setEmployees(mockUsers.data);
   };
 
