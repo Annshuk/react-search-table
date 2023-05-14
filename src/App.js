@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useEffect } from 'react';
 
 import './style.css';
 
@@ -6,7 +6,13 @@ import './style.css';
 App should never render
 only those component will render which is upating
  */
-const url = 'https://dummy.restapiexample.com/api/v1/employees';
+
+const fetchEmployees = async (param) => {
+  const url = 'https://run.mocky.io/v3/7433a09e-abfc-4ccd-8bbc-a1a82076ec32';
+  const response = await fetch(url);
+
+  return await response.json();
+};
 
 const mockUsers = {
   status: 'success',
@@ -219,6 +225,10 @@ const Table = memo(({ lists = [] }) => {
 const SearchTable = () => {
   // const [value, setValue] = useState('');
   const [employees, setEmployees] = useState(mockUsers.data);
+
+  useEffect(() => {
+    fetchEmployees().then((res) => console.warn(res));
+  });
 
   // const handleInputChange = ({ target: { value } }) => {
   //   setValue(value);
