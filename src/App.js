@@ -242,7 +242,7 @@ const SearchTable = () => {
   return (
     <>
       <label>
-        search: <Input onChange={searchUser} />
+        search: <Input onChange={searchUser} placeholder="enter terms or id" />
         <button onClick={clearedValue}>X</button>
         <button onClick={searchUser}>Search</button>
       </label>
