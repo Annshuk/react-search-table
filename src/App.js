@@ -227,8 +227,8 @@ const SearchTable = () => {
   const [employees, setEmployees] = useState(mockUsers.data);
 
   useEffect(() => {
-    fetchEmployees().then((res) => console.warn(res));
-  });
+    fetchEmployees().then((res) => setEmployees(res.data));
+  }, []);
 
   // const handleInputChange = ({ target: { value } }) => {
   //   setValue(value);
