@@ -20,7 +20,7 @@ const Input = ({ type = 'text', ...rest }) => <input type={type} {...rest} />;
  * Table
  */
 const Table = memo(({ lists = [] }) => (
-  <table border="1">
+  <table border="1" cellSpacing="0" rowSpacing="0">
     <thead>
       <tr>
         <th>id</th>
@@ -39,11 +39,10 @@ const Table = memo(({ lists = [] }) => (
 ));
 
 /**
- * SearchTable
- * control component
- * search table
+ * App
+ * it would render once
  */
-const SearchTable = () => {
+const App = () => {
   const [value, setValue] = useState('');
   const [employees, setEmployees] = useState([]);
 
@@ -74,7 +73,7 @@ const SearchTable = () => {
         search:
         <Input
           onChange={searchUser}
-          placeholder="enter terms or id"
+          placeholder="enter employee name or id"
           value={value}
         />
         <button onClick={clearedValue}>X</button>
@@ -85,11 +84,5 @@ const SearchTable = () => {
     </>
   );
 };
-
-/**
- * App
- * it would render once
- */
-const App = () => <SearchTable />;
 
 export default App;
