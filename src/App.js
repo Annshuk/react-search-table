@@ -8,7 +8,7 @@ only those component will render which is upating
  */
 
 const fetchEmployees = async (param) => {
-  const url = 'https://run.mocky.io/v3/7433a09e-abfc-4ccd-8bbc-a1a82076ec32';
+  const url = 'https://run.mocky.io/v3/ed4683d2-f300-494d-9ee1-72d4fe30aa29';
   const response = await fetch(url);
 
   return await response.json();
@@ -194,28 +194,24 @@ const Input = ({ type = 'text', ...rest }) => <input type={type} {...rest} />;
 /**
  * Table
  */
-const Table = memo(({ lists = [] }) => {
-  console.log('Table render');
-
-  return (
-    <table border="1">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>Employee Name</th>
+const Table = memo(({ lists = [] }) => (
+  <table border="1">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Employee Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {lists.map(({ id, employee_name }) => (
+        <tr key={id}>
+          <td>{id}</td>
+          <td>{employee_name}</td>
         </tr>
-      </thead>
-      <tbody>
-        {lists.map(({ id, employee_name }) => (
-          <tr key={id}>
-            <td>{id}</td>
-            <td>{employee_name}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-});
+      ))}
+    </tbody>
+  </table>
+));
 
 /**
  * SearchTable
@@ -223,41 +219,44 @@ const Table = memo(({ lists = [] }) => {
  * search table
  */
 const SearchTable = () => {
-  // const [value, setValue] = useState('');
-  const [employees, setEmployees] = useState(mockUsers.data);
+  const [value, setValue] = useState('');
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    fetchEmployees().then((res) => setEmployees(res.data));
+    fetchEmployees().then((res) => {
+      setEmployees(res.data);
+    });
   }, []);
 
-  // const handleInputChange = ({ target: { value } }) => {
-  //   setValue(value);
-  // };
-
   const searchUser = ({ target: { value } }) => {
-    setEmployees((employees) =>
-      value
-        ? employees.filter(
-            ({ id, employee_name }) =>
-              employee_name.toLowerCase().includes(value) || id === +value
-          )
-        : mockUsers.data
-    );
+    setValue(value);
   };
 
+  const filterDetails = value
+    ? employees.filter(
+        ({ id, employee_name }) =>
+          employee_name.toLowerCase().includes(value) || id === +value
+      )
+    : employees;
+
   const clearedValue = () => {
-    setEmployees(mockUsers.data);
+    setValue('');
   };
 
   return (
     <>
       <label>
-        search: <Input onChange={searchUser} placeholder="enter terms or id" />
+        search:
+        <Input
+          onChange={searchUser}
+          placeholder="enter terms or id"
+          value={value}
+        />
         <button onClick={clearedValue}>X</button>
         <button onClick={searchUser}>Search</button>
       </label>
 
-      <Table lists={employees} />
+      <Table lists={filterDetails} />
     </>
   );
 };
@@ -266,10 +265,6 @@ const SearchTable = () => {
  * App
  * it would render once
  */
-const App = () => {
-  console.log('App render');
-
-  return <SearchTable />;
-};
+const App = () => <SearchTable />;
 
 export default App;
